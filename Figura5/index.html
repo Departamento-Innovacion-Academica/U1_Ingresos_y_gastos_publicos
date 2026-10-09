@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tributos municipales | Tarjetas interactivas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --navy: #06164f;
+            --blue: #1b56b4;
+            --light: #e1f2fd;
+            --orange: #f5a119
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Poppins, Arial, sans-serif;
+            color: var(--navy);
+            background: radial-gradient(circle at -2% -3%, #d4e9fc 0 95px, transparent 96px), linear-gradient(160deg, #fff 50%, #f3faff);
+            min-height: 100vh
+        }
+
+        .shell {
+            width: min(1360px, 96%);
+            margin: 0 auto;
+            padding: 28px 0 36px
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 14px
+        }
+
+        .heading h1 {
+            font-size: clamp(2rem, 4.8vw, 4rem);
+            line-height: 1.2;
+            letter-spacing: -.04em;
+            margin: 0 0 12px;
+            font-weight: 800
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            color: #ec9314;
+            font-size: 1.9rem
+        }
+
+        .ornament:before,
+        .ornament:after {
+            content: "";
+            width: min(24vw, 260px);
+            height: 3px;
+            background: #ee9919
+        }
+
+        .intro {
+            text-align: center;
+            font-size: .94rem;
+            color: #405b80;
+            margin: 19px 0 24px
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px
+        }
+
+        .card {
+            perspective: 1400px;
+            min-width: 0;
+            opacity: 0;
+            animation: enter .7s cubic-bezier(.2, .7, .2, 1) forwards;
+            animation-delay: calc(var(--i)*120ms)
+        }
+
+        @keyframes enter {
+            from {
+                opacity: 0;
+                transform: translateY(32px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .card-inner {
+            height: 560px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform .72s cubic-bezier(.22, .78, .2, 1)
+        }
+
+        .card.is-open .card-inner {
+            transform: rotateY(180deg)
+        }
+
+        .face {
+            position: absolute;
+            inset: 0;
+            border: 7px solid #dbedfb;
+            border-radius: 22px;
+            overflow: hidden;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            box-shadow: 0 16px 36px rgba(5, 36, 95, .12);
+            display: flex;
+            flex-direction: column;
+            align-items: center
+        }
+
+        .front {
+            background: linear-gradient(180deg, #e8f7ff, #fff 72%);
+            padding: 22px 16px 25px;
+            cursor: pointer;
+            justify-content: center;
+            gap: 26px;
+            transition: border-color .2s, box-shadow .2s
+        }
+
+        .card:hover .front,
+        .card.is-current .front {
+            border-color: #9bd1f4;
+            box-shadow: 0 20px 42px rgba(7, 67, 140, .18)
+        }
+
+        .art {
+            width: 210px;
+            max-width: 95%;
+            height: 210px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 32% 26%, #eefaff, #b8dfff 70%, #99c9ef);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .5);
+            flex-shrink: 0
+        }
+
+        .art i {
+            font-size: 6.4rem;
+            color: #115299;
+            filter: drop-shadow(5px 7px 0 rgba(7, 52, 103, .10));
+            transition: transform .35s
+        }
+
+        .front:hover .art i {
+            transform: scale(1.07) translateY(-3px)
+        }
+
+        .card:nth-child(2) .art {
+            background: radial-gradient(circle at 30% 25%, #ecffff, #a9eeee)
+        }
+
+        .card:nth-child(3) .art {
+            background: radial-gradient(circle at 30% 25%, #fff6de, #ffe0a4)
+        }
+
+        .card:nth-child(4) .art {
+            background: radial-gradient(circle at 30% 25%, #f5efff, #d6c2ff)
+        }
+
+        .card:nth-child(3) .art i {
+            color: #be6710
+        }
+
+        .card:nth-child(4) .art i {
+            color: #5c32ac
+        }
+
+        .front h2 {
+            font-size: clamp(1.14rem, 1.65vw, 1.55rem);
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.3;
+            background: linear-gradient(115deg, #2766ba, #083b91);
+            color: #fff;
+            border-radius: 16px;
+            padding: 21px 15px;
+            width: 100%;
+            min-height: 100px;
+            display: grid;
+            place-items: center;
+            margin: 0
+        }
+
+        .card:nth-child(2) .front h2 {
+            background: linear-gradient(115deg, #0b3475, #051f55)
+        }
+
+        .card:nth-child(3) .front h2 {
+            background: linear-gradient(115deg, #268bc8, #1473af)
+        }
+
+        .card:nth-child(4) .front h2 {
+            background: linear-gradient(115deg, #7537b3, #4a228d)
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background: linear-gradient(155deg, #071c57, #114c93 72%, #1c72a8);
+            color: #fff;
+            justify-content: center;
+            padding: 21px 15px;
+            text-align: center;
+            gap: 13px
+        }
+
+        .card:nth-child(4) .back {
+            background: linear-gradient(155deg, #281364, #47278f 75%, #613daa)
+        }
+
+        .back h3 {
+            font-size: 1.35rem;
+            line-height: 1.25;
+            margin: 0 0 5px
+        }
+
+        .back .back-icon {
+            font-size: 2.3rem;
+            color: #ffcc69
+        }
+
+        .back ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            text-align: left;
+            width: 100%;
+            display: grid;
+            gap: 9px
+        }
+
+        .back li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: .88rem;
+            line-height: 1.45;
+            border: 1px solid #ffffff28;
+            background: #ffffff12;
+            border-radius: 12px;
+            padding: 11px 10px
+        }
+
+        .back li i {
+            color: #ffd17a;
+            min-width: 23px;
+            font-size: 1.1rem;
+            margin-top: 2px;
+            text-align: center
+        }
+
+        .back button {
+            font: 600 .85rem Poppins, Arial, sans-serif;
+            border: none;
+            border-radius: 22px;
+            padding: 11px 18px;
+            color: #072255;
+            background: white;
+            cursor: pointer;
+            margin-top: 5px
+        }
+
+        .back button:hover {
+            background: #dcefff
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            margin: 25px 0 10px
+        }
+
+        .arrow {
+            border: 0;
+            background: #061b57;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background .2s, transform .2s
+        }
+
+        .arrow:hover {
+            background: #2873bb;
+            transform: scale(1.1)
+        }
+
+        .arrow:active {
+            transform: scale(.95)
+        }
+
+        .counter {
+            font-weight: 700;
+            min-width: 82px;
+            text-align: center
+        }
+
+        .hint,
+        .help {
+            text-align: center;
+            font-size: .85rem;
+            color: #58708f
+        }
+
+        .hint {
+            margin: 8px 0
+        }
+
+        .help {
+            margin: 6px 0 0
+        }
+
+        .note {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            margin: 25px 0 0;
+            font-size: 1rem
+        }
+
+        .note:before,
+        .note:after {
+            content: "";
+            height: 2px;
+            max-width: 150px;
+            flex: 1;
+            background: #2a65bc
+        }
+
+        .note i {
+            color: #f1a11f;
+            font-size: 1.7rem
+        }
+
+        .front:focus-visible,
+        .arrow:focus-visible,
+        .back button:focus-visible {
+            outline: 3px solid #ffae26;
+            outline-offset: 4px
+        }
+
+        @media(max-width:1100px) {
+            .cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .card-inner {
+                height: 510px
+            }
+
+            .back li {
+                font-size: .97rem
+            }
+
+            .front h2 {
+                font-size: 1.45rem
+            }
+        }
+
+        @media(max-width:700px) {
+            .shell {
+                width: min(460px, 94%)
+            }
+
+            .cards {
+                display: block
+            }
+
+            .card {
+                display: none;
+                opacity: 1;
+                animation: none
+            }
+
+            .card.is-current {
+                display: block;
+                animation: enter .35s ease both
+            }
+
+            .card-inner {
+                height: 560px
+            }
+
+            .front h2 {
+                font-size: 1.55rem
+            }
+
+            .back li {
+                font-size: .96rem
+            }
+
+            .intro {
+                font-size: .85rem
+            }
+
+            .heading h1 {
+                font-size: 2.15rem
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *:before,
+            *:after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="shell">
+        <header class="heading">
+            <h1>c. Tributos municipales</h1>
+            <div class="ornament" aria-hidden="true"><i class="fa-solid fa-landmark"></i></div>
+        </header>
+        <p class="intro">Haga clic sobre una tarjeta para girarla y consultar los tributos.</p>
+        <section class="cards" id="cards" aria-label="Cuatro categorías de tributos municipales">
+            <article class="card is-current" style="--i:0">
+                <div class="card-inner">
+                    <div class="face front" tabindex="0" role="button" aria-label="Ver tributos: Impuestos básicos"
+                        aria-expanded="false">
+                        <div class="art"><i class="fa-solid fa-house" aria-hidden="true"></i></div>
+                        <h2>Impuestos básicos</h2>
+                    </div>
+                    <div class="face back"><i class="fa-solid fa-house-circle-check back-icon" aria-hidden="true"></i>
+                        <h3>Impuestos básicos</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-house"></i><span>Impuesto predial unificado.</span></li>
+                            <li><i class="fa-solid fa-store"></i><span>Impuesto de industria y comercio.</span></li>
+                            <li><i class="fa-solid fa-car-side"></i><span>Impuesto de circulación y tránsito.</span>
+                            </li>
+                        </ul><button class="close-btn" type="button">Volver a la tarjeta <i
+                                class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="card" style="--i:1">
+                <div class="card-inner">
+                    <div class="face front" tabindex="0" role="button" aria-label="Ver tributos: Urbanismo y servicios"
+                        aria-expanded="false">
+                        <div class="art"><i class="fa-solid fa-city" aria-hidden="true"></i></div>
+                        <h2>Urbanismo y servicios</h2>
+                    </div>
+                    <div class="face back"><i class="fa-solid fa-building back-icon" aria-hidden="true"></i>
+                        <h3>Urbanismo y servicios</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-ruler-combined"></i><span>Impuesto de delineación urbana.</span>
+                            </li>
+                            <li><i class="fa-solid fa-lightbulb"></i><span>Impuesto de alumbrado público.</span></li>
+                            <li><i class="fa-solid fa-arrow-trend-up"></i><span>Plusvalía urbanística.</span></li>
+                        </ul><button class="close-btn" type="button">Volver a la tarjeta <i
+                                class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="card" style="--i:2">
+                <div class="card-inner">
+                    <div class="face front" tabindex="0" role="button"
+                        aria-label="Ver tributos: Espectáculos y combustibles" aria-expanded="false">
+                        <div class="art"><i class="fa-solid fa-masks-theater" aria-hidden="true"></i></div>
+                        <h2>Espectáculos y combustibles</h2>
+                    </div>
+                    <div class="face back"><i class="fa-solid fa-ticket back-icon" aria-hidden="true"></i>
+                        <h3>Espectáculos y combustibles</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-masks-theater"></i><span>Impuesto a espectáculos públicos.</span>
+                            </li>
+                            <li><i class="fa-solid fa-gas-pump"></i><span>Sobretasa a la gasolina.</span></li>
+                        </ul><button class="close-btn" type="button">Volver a la tarjeta <i
+                                class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </article>
+            <article class="card" style="--i:3">
+                <div class="card-inner">
+                    <div class="face front" tabindex="0" role="button" aria-label="Ver tributos: Juegos y otros"
+                        aria-expanded="false">
+                        <div class="art"><i class="fa-solid fa-dice" aria-hidden="true"></i></div>
+                        <h2>Juegos y otros</h2>
+                    </div>
+                    <div class="face back"><i class="fa-solid fa-dice back-icon" aria-hidden="true"></i>
+                        <h3>Juegos y otros</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-cow"></i><span>Plusvalía de degüello al ganado menor.</span></li>
+                            <li><i class="fa-solid fa-ticket"></i><span>Impuesto y derechos de exportación sobre
+                                    rifas.</span></li>
+                            <li><i class="fa-solid fa-dice"></i><span>Impuesto sobre apuestas en toda clase de juegos
+                                    permitidos y casinos.</span></li>
+                        </ul><button class="close-btn" type="button">Volver a la tarjeta <i
+                                class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </article>
+        </section>
+        <nav class="controls" aria-label="Navegación circular"><button id="prev" class="arrow" type="button"
+                aria-label="Tarjeta anterior"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button><span
+                id="counter" class="counter" aria-live="polite">1 de 4</span><button id="next" class="arrow"
+                type="button" aria-label="Tarjeta siguiente"><i class="fa-solid fa-arrow-right"
+                    aria-hidden="true"></i></button></nav>
+        <p class="help">También puede navegar con las teclas ← y →. La navegación es circular.</p>
+        <footer class="note"><i class="fa-solid fa-coins" aria-hidden="true"></i><span>Principales tributos de carácter
+                municipal.</span></footer>
+    </main>
+    <script>
+        (() => {
+            const cards = [...document.querySelectorAll('.card')], counter = document.getElementById('counter'); let active = 0;
+            function close(card) { card.classList.remove('is-open'); card.querySelector('.front').setAttribute('aria-expanded', 'false') }
+            function activate(n) { active = (n + cards.length) % cards.length; cards.forEach((c, i) => { close(c); c.classList.toggle('is-current', i === active) }); counter.textContent = `${active + 1} de ${cards.length}` }
+            cards.forEach((card, i) => {
+                const front = card.querySelector('.front'), back = card.querySelector('.back'), closeBtn = card.querySelector('.close-btn');
+                function flip() { activate(i); card.classList.add('is-open'); front.setAttribute('aria-expanded', 'true'); front.setAttribute('tabindex', '-1'); closeBtn.focus({ preventScroll: true }) }
+                front.addEventListener('click', flip); front.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip() } });
+                closeBtn.addEventListener('click', () => { close(card); front.setAttribute('tabindex', '0'); front.focus({ preventScroll: true }) });
+            });
+            document.getElementById('prev').addEventListener('click', () => activate(active - 1)); document.getElementById('next').addEventListener('click', () => activate(active + 1));
+            document.addEventListener('keydown', e => { if (e.altKey || e.ctrlKey || e.metaKey || e.target.matches('input,textarea,select')) return; if (e.key === 'ArrowRight') { activate(active + 1) } else if (e.key === 'ArrowLeft') { activate(active - 1) } else if (e.key === 'Escape' && cards[active].classList.contains('is-open')) { const c = cards[active]; close(c); c.querySelector('.front').setAttribute('tabindex', '0'); c.querySelector('.front').focus({ preventScroll: true }) } });
+            let touchX = null; const area = document.getElementById('cards'); area.addEventListener('touchstart', e => touchX = e.touches[0].clientX, { passive: true }); area.addEventListener('touchend', e => { if (touchX === null) return; const dx = e.changedTouches[0].clientX - touchX; if (Math.abs(dx) > 65) activate(active + (dx < 0 ? 1 : -1)); touchX = null }, { passive: true });
+        })();
+    </script>
+</body>
+
+</html>

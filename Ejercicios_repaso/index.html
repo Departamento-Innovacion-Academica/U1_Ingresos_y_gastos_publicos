@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ejercicios de repaso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --azul-oscuro:#031451;
+      --azul-medio:#56628D;
+      --azul-claro:#EAF0FF;
+      --azul-borde:#CBD8FF;
+      --blanco:#ffffff;
+      --texto:#1F2950;
+      --correcto:#1f8f5f;
+      --correcto-fondo:#E8FFF4;
+      --incorrecto:#c13d4b;
+      --incorrecto-fondo:#FFF0F2;
+      --sombra:0 18px 45px rgba(3,20,81,.12);
+      --radio:22px;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:"Poppins", sans-serif;
+      color:var(--texto);
+      background:
+        radial-gradient(circle at top left, rgba(86,98,141,.14), transparent 240px),
+        radial-gradient(circle at bottom right, rgba(3,20,81,.08), transparent 220px),
+        linear-gradient(180deg, #F9FBFF 0%, #F1F5FF 100%);
+      min-height:100vh;
+    }
+
+    .contenedor{
+      width:min(1100px, 94%);
+      margin:0 auto;
+      padding:36px 0 48px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg, var(--azul-oscuro), #0F267D 70%, var(--azul-medio));
+      border-radius:28px;
+      color:var(--blanco);
+      padding:34px 30px;
+      box-shadow:var(--sombra);
+      position:relative;
+      overflow:hidden;
+      margin-bottom:26px;
+    }
+
+    .hero::before,
+    .hero::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+    }
+
+    .hero::before{width:180px;height:180px;top:-70px;right:-30px}
+    .hero::after{width:130px;height:130px;bottom:-45px;left:-35px}
+
+    .hero h1{
+      margin:0 0 8px;
+      font-size:clamp(2rem, 4.2vw, 3.25rem);
+      line-height:1.05;
+      font-weight:800;
+      position:relative;
+      z-index:1;
+    }
+
+    .hero p{
+      margin:0;
+      font-size:clamp(.98rem, 1.6vw, 1.08rem);
+      max-width:760px;
+      opacity:.95;
+      position:relative;
+      z-index:1;
+    }
+
+    .panel-resultado{
+      display:grid;
+      grid-template-columns: 1.4fr .8fr;
+      gap:18px;
+      margin-bottom:24px;
+    }
+
+    .resumen,
+    .acciones{
+      background:var(--blanco);
+      border:1px solid var(--azul-borde);
+      border-radius:22px;
+      box-shadow:0 12px 35px rgba(31,41,80,.08);
+      padding:22px;
+    }
+
+    .resumen h2,
+    .acciones h2{
+      margin:0 0 12px;
+      color:var(--azul-oscuro);
+      font-size:1.15rem;
+    }
+
+    .estado{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      align-items:center;
+    }
+
+    .estado .pill{
+      background:var(--azul-claro);
+      color:var(--azul-oscuro);
+      border:1px solid var(--azul-borde);
+      border-radius:999px;
+      padding:10px 16px;
+      font-weight:600;
+      font-size:.95rem;
+    }
+
+    .marcador{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+
+    .score-box{
+      min-width:150px;
+      background:linear-gradient(135deg, #EEF3FF, #FFFFFF);
+      border:1px solid var(--azul-borde);
+      border-radius:18px;
+      padding:18px;
+      text-align:center;
+    }
+
+    .score-box strong{
+      display:block;
+      color:var(--azul-oscuro);
+      font-size:2rem;
+      line-height:1;
+      margin-bottom:6px;
+    }
+
+    .score-box span{
+      color:var(--azul-medio);
+      font-size:.92rem;
+      font-weight:500;
+    }
+
+    .mensaje-final{
+      flex:1;
+      min-width:220px;
+      background:#F8FAFF;
+      border-left:5px solid var(--azul-medio);
+      border-radius:16px;
+      padding:16px 18px;
+      line-height:1.55;
+      font-size:.96rem;
+    }
+
+    .botonera{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    button{
+      font-family:inherit;
+      border:none;
+      cursor:pointer;
+      transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .btn-principal,
+    .btn-secundario{
+      width:100%;
+      padding:14px 18px;
+      border-radius:16px;
+      font-weight:700;
+      font-size:.96rem;
+    }
+
+    .btn-principal{
+      background:linear-gradient(135deg, var(--azul-oscuro), var(--azul-medio));
+      color:var(--blanco);
+      box-shadow:0 10px 24px rgba(3,20,81,.22);
+    }
+
+    .btn-secundario{
+      background:#EEF3FF;
+      color:var(--azul-oscuro);
+      border:1px solid var(--azul-borde);
+    }
+
+    .btn-principal:hover,
+    .btn-secundario:hover{transform:translateY(-2px)}
+
+    .grid-preguntas{
+      display:grid;
+      gap:20px;
+    }
+
+    .pregunta{
+      background:var(--blanco);
+      border:1px solid var(--azul-borde);
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 14px 36px rgba(31,41,80,.08);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .pregunta::before{
+      content:"";
+      position:absolute;
+      inset:0 auto 0 0;
+      width:7px;
+      background:linear-gradient(180deg, var(--azul-oscuro), var(--azul-medio));
+    }
+
+    .numero{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:var(--azul-oscuro);
+      color:var(--blanco);
+      font-weight:700;
+      margin-bottom:14px;
+      box-shadow:0 8px 18px rgba(3,20,81,.18);
+    }
+
+    .enunciado{
+      margin:0 0 18px;
+      font-size:1.08rem;
+      line-height:1.5;
+      color:var(--azul-oscuro);
+      font-weight:600;
+    }
+
+    .opciones{
+      display:grid;
+      gap:12px;
+    }
+
+    .opcion{
+      position:relative;
+      border:1.5px solid var(--azul-borde);
+      border-radius:18px;
+      background:#FBFCFF;
+      transition:border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    .opcion:hover{
+      border-color:#9CB4FF;
+      transform:translateY(-1px);
+      box-shadow:0 8px 22px rgba(86,98,141,.10);
+    }
+
+    .opcion input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .opcion label{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      padding:16px 18px;
+      cursor:pointer;
+    }
+
+    .radio-ui{
+      width:var(--radio);
+      height:var(--radio);
+      border-radius:50%;
+      border:2px solid #94A4D8;
+      flex-shrink:0;
+      margin-top:1px;
+      position:relative;
+      background:#fff;
+    }
+
+    .radio-ui::after{
+      content:"";
+      position:absolute;
+      inset:4px;
+      border-radius:50%;
+      background:transparent;
+      transition:background .2s ease;
+    }
+
+    .opcion input:checked + label .radio-ui{
+      border-color:var(--azul-oscuro);
+      background:#fff;
+    }
+
+    .opcion input:checked + label .radio-ui::after{
+      background:var(--azul-oscuro);
+    }
+
+    .texto-opcion{
+      line-height:1.48;
+      font-size:.98rem;
+    }
+
+    .texto-opcion b{
+      color:var(--azul-oscuro);
+      margin-right:6px;
+    }
+
+    .opcion.seleccionada{
+      border-color:#7E96E8;
+      background:#F3F6FF;
+    }
+
+    .opcion.correcta{
+      border-color:var(--correcto);
+      background:var(--correcto-fondo);
+    }
+
+    .opcion.incorrecta{
+      border-color:var(--incorrecto);
+      background:var(--incorrecto-fondo);
+    }
+
+    .feedback{
+      margin-top:18px;
+      border-radius:18px;
+      padding:16px 18px;
+      line-height:1.58;
+      display:none;
+    }
+
+    .feedback.visible{display:block}
+
+    .feedback.correcto{
+      background:var(--correcto-fondo);
+      border:1px solid #B6ECCF;
+    }
+
+    .feedback.incorrecto{
+      background:var(--incorrecto-fondo);
+      border:1px solid #F3C2C9;
+    }
+
+    .feedback strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:1rem;
+    }
+
+    .insignia-correcta{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin-top:10px;
+      padding:9px 12px;
+      border-radius:999px;
+      background:#fff;
+      border:1px dashed currentColor;
+      font-size:.92rem;
+      font-weight:600;
+    }
+
+    .pendiente{
+      display:none;
+      margin-top:14px;
+      padding:14px 16px;
+      border-radius:16px;
+      background:#FFF8E9;
+      border:1px solid #F3DB96;
+      color:#6B5714;
+      font-size:.94rem;
+    }
+
+    .pendiente.visible{display:block}
+
+    .pie{
+      text-align:center;
+      margin-top:28px;
+      color:#61709E;
+      font-size:.92rem;
+    }
+
+    @media (max-width: 860px){
+      .panel-resultado{grid-template-columns:1fr}
+      .hero{padding:28px 22px}
+      .pregunta{padding:20px}
+    }
+
+    @media (max-width: 560px){
+      .contenedor{width:min(96%, 100%); padding:24px 0 36px}
+      .hero h1{font-size:2rem}
+      .estado{gap:10px}
+      .score-box{width:100%}
+      .opcion label{padding:14px}
+      .enunciado{font-size:1rem}
+      .texto-opcion{font-size:.95rem}
+    }
+
+    /* Navegación individual */
+    .pregunta[hidden], .resultado-final[hidden], .navegacion-quiz[hidden], .progreso-panel[hidden], #quizForm[hidden] {display:none !important}
+    .pregunta.activa{animation:entrarPregunta .4s ease both}
+    @keyframes entrarPregunta{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+    .progreso-panel{padding:20px 24px;background:#fff;border:1px solid var(--azul-borde);border-radius:20px;margin-bottom:22px;box-shadow:0 10px 28px rgba(3,20,81,.06)}
+    .progreso-texto{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;color:var(--azul-oscuro)}
+    .progreso-texto span{font-size:.9rem;color:var(--azul-medio)}
+    .progreso-pista{height:10px;background:#e7edfd;border-radius:10px;overflow:hidden}
+    .progreso-barra{height:100%;width:25%;background:linear-gradient(90deg,#56628D,#031451);border-radius:10px;transition:width .35s ease}
+    .navegacion-quiz{display:flex;justify-content:space-between;gap:14px;margin-top:22px}
+    .navegacion-quiz button{width:auto;min-width:185px}
+    button:disabled{opacity:.42;cursor:not-allowed;transform:none !important;box-shadow:none !important}
+    .resultado-final{background:#fff;border:1px solid var(--azul-borde);border-radius:24px;padding:28px;box-shadow:var(--sombra)}
+    .resultado-cabecera{text-align:center}
+    .resultado-icono{margin:0 auto 12px;width:65px;height:65px;border-radius:50%;display:grid;place-items:center;background:#eaf0ff;color:#031451;font-size:2rem}
+    .resultado-cabecera h2{color:var(--azul-oscuro);font-size:2rem;margin:0 0 8px}
+    .resultado-cabecera p{margin:0 auto 20px;max-width:660px}
+    .resultado-cifras{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+    .resultado-cifras div{background:#f3f6ff;border:1px solid var(--azul-borde);padding:18px 26px;border-radius:18px;min-width:190px}
+    .resultado-cifras strong{display:block;font-size:2rem;color:var(--azul-oscuro)}
+    .resultado-cifras span{font-size:.9rem;color:var(--azul-medio)}
+    .detalle-titulo{margin:30px 0 16px;color:var(--azul-oscuro)}
+    .detalle-respuestas{display:grid;gap:14px;margin-bottom:24px}
+    .detalle-item{background:#f8faff;border:1px solid var(--azul-borde);border-left:5px solid var(--azul-medio);border-radius:16px;padding:18px}
+    .detalle-item.bien{border-left-color:#1f8f5f}
+    .detalle-item.mal{border-left-color:#c13d4b}
+    .detalle-item h4{color:var(--azul-oscuro);margin:0 0 10px;font-size:1rem}
+    .detalle-item p{margin:8px 0 0;line-height:1.55;font-size:.94rem}
+    .detalle-item.bien .estado-respuesta{color:#1f8f5f;font-weight:700}
+    .detalle-item.mal .estado-respuesta{color:#c13d4b;font-weight:700}
+    #reiniciarBtn{max-width:270px;display:block;margin:0 auto}
+    @media(max-width:560px){.navegacion-quiz button{min-width:0;flex:1;font-size:.9rem;padding:12px 8px}.resultado-final{padding:20px}}
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <section class="hero">
+      <h1>Ejercicios de repaso</h1>
+      <p>Seleccione la respuesta correcta en cada pregunta. Al finalizar, el recurso totaliza sus selecciones correctas y presenta la realimentación correspondiente.</p>
+    </section>
+
+    <section class="progreso-panel" aria-label="Progreso del cuestionario">
+      <div class="progreso-texto"><strong id="indicadorPregunta">Pregunta 1 de 4</strong><span id="indicadorRespondidas">0 de 4 respondidas</span></div>
+      <div class="progreso-pista"><div class="progreso-barra" id="progresoBarra"></div></div>
+    </section>
+
+    <form id="quizForm" novalidate>
+      <section class="grid-preguntas">
+
+        <article class="pregunta" data-question="q1" data-correct="c">
+          <div class="numero">1</div>
+          <h3 class="enunciado">Desde una perspectiva heterodoxa, el principio de la equidad tributaria significa:</h3>
+          <div class="opciones">
+            <div class="opcion" data-letter="a">
+              <input type="radio" id="q1a" name="q1" value="a">
+              <label for="q1a">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>a.</b> Una asignación eficiente de los impuestos.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="b">
+              <input type="radio" id="q1b" name="q1" value="b">
+              <label for="q1b">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>b.</b> Aquella que no diferencia en el nivel o cantidad absoluta o relativa del impuesto pagado.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="c">
+              <input type="radio" id="q1c" name="q1" value="c">
+              <label for="q1c">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>c.</b> La cantidad o tasa de impuesto que paga un agente es directamente proporcional a su nivel de renta o ingreso.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="d">
+              <input type="radio" id="q1d" name="q1" value="d">
+              <label for="q1d">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>d.</b> Unos impuestos que favorezcan al capital.</span>
+              </label>
+            </div>
+          </div>
+          <div class="pendiente">Debe seleccionar una respuesta para esta pregunta antes de calificar.</div>
+          <div class="feedback">
+            <strong>Realimentación</strong>
+            <span>El principio de equidad establece que los impuestos deben ser proporcionales al nivel de ingresos de los agentes económicos: bajo ingreso, bajo impuesto; alto ingreso, un nivel alto del impuesto.</span>
+          </div>
+        </article>
+
+        <article class="pregunta" data-question="q2" data-correct="d">
+          <div class="numero">2</div>
+          <h3 class="enunciado">Una de las características más relevantes de los ingresos corrientes es:</h3>
+          <div class="opciones">
+            <div class="opcion" data-letter="a">
+              <input type="radio" id="q2a" name="q2" value="a">
+              <label for="q2a">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>a.</b> Son ingresos no continuos.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="b">
+              <input type="radio" id="q2b" name="q2" value="b">
+              <label for="q2b">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>b.</b> Son ingresos ocasionales.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="c">
+              <input type="radio" id="q2c" name="q2" value="c">
+              <label for="q2c">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>c.</b> Son ingresos que generan capital.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="d">
+              <input type="radio" id="q2d" name="q2" value="d">
+              <label for="q2d">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>d.</b> Son ingresos permanentes.</span>
+              </label>
+            </div>
+          </div>
+          <div class="pendiente">Debe seleccionar una respuesta para esta pregunta antes de calificar.</div>
+          <div class="feedback">
+            <strong>Realimentación</strong>
+            <span>Una de las principales características de los ingresos corrientes es que son de carácter permanente y continuo para la entidad pública que los percibe, a diferencia de los ingresos o recursos de capital que no tienen ese carácter de permanencia.</span>
+          </div>
+        </article>
+
+        <article class="pregunta" data-question="q3" data-correct="c">
+          <div class="numero">3</div>
+          <h3 class="enunciado">La clasificación económica del gasto público se caracteriza por:</h3>
+          <div class="opciones">
+            <div class="opcion" data-letter="a">
+              <input type="radio" id="q3a" name="q3" value="a">
+              <label for="q3a">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>a.</b> Se rige a partir de unos principios jurídicos, así como por un conjunto de leyes y normas.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="b">
+              <input type="radio" id="q3b" name="q3" value="b">
+              <label for="q3b">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>b.</b> Se establecen las distintas categorías del gasto a partir de las finalidades del gobierno en sus diferentes niveles.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="c">
+              <input type="radio" id="q3c" name="q3" value="c">
+              <label for="q3c">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>c.</b> Diferencia los flujos económicos generados por el gasto público y que se dirigen hacia la creación o no de riqueza productiva.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="d">
+              <input type="radio" id="q3d" name="q3" value="d">
+              <label for="q3d">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>d.</b> Considera los principios del presupuesto público.</span>
+              </label>
+            </div>
+          </div>
+          <div class="pendiente">Debe seleccionar una respuesta para esta pregunta antes de calificar.</div>
+          <div class="feedback">
+            <strong>Realimentación</strong>
+            <span>La clasificación económica del gasto público tiene como uno de sus objetivos fundamentales establecer la contribución de este al crecimiento económico y al incremento efectivo de la formación bruta de capital de todo el conjunto de la economía.</span>
+          </div>
+        </article>
+
+        <article class="pregunta" data-question="q4" data-correct="b">
+          <div class="numero">4</div>
+          <h3 class="enunciado">Una característica del gasto público de capital es:</h3>
+          <div class="opciones">
+            <div class="opcion" data-letter="a">
+              <input type="radio" id="q4a" name="q4" value="a">
+              <label for="q4a">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>a.</b> Financia el funcionamiento del Estado.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="b">
+              <input type="radio" id="q4b" name="q4" value="b">
+              <label for="q4b">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>b.</b> Guarda una relación directa con el crecimiento económico y la generación de riqueza.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="c">
+              <input type="radio" id="q4c" name="q4" value="c">
+              <label for="q4c">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>c.</b> Se dirige a financiar los gastos generales del Estado.</span>
+              </label>
+            </div>
+            <div class="opcion" data-letter="d">
+              <input type="radio" id="q4d" name="q4" value="d">
+              <label for="q4d">
+                <span class="radio-ui" aria-hidden="true"></span>
+                <span class="texto-opcion"><b>d.</b> No guarda una relación directa con el crecimiento económico.</span>
+              </label>
+            </div>
+          </div>
+          <div class="pendiente">Debe seleccionar una respuesta para esta pregunta antes de calificar.</div>
+          <div class="feedback">
+            <strong>Realimentación</strong>
+            <span>El gasto público de capital incentiva el crecimiento de la economía al incrementar la formación bruta de capital y la inversión pública.</span>
+          </div>
+        </article>
+
+      </section>
+    </form>
+
+    <nav class="navegacion-quiz" id="navegacionQuiz" aria-label="Navegación entre preguntas">
+      <button type="button" class="btn-secundario" id="anteriorBtn">← Anterior</button>
+      <button type="button" class="btn-principal" id="siguienteBtn">Siguiente →</button>
+    </nav>
+
+    <section class="resultado-final" id="resultadoFinal" hidden aria-live="polite">
+      <div class="resultado-cabecera">
+        <div class="resultado-icono" aria-hidden="true">★</div>
+        <h2>Resultado final</h2>
+        <p id="mensajeFinal"></p>
+        <div class="resultado-cifras">
+          <div><strong id="scoreValor">0/4</strong><span>Respuestas correctas</span></div>
+          <div><strong id="porcentaje">0%</strong><span>Porcentaje de acierto</span></div>
+        </div>
+      </div>
+      <h3 class="detalle-titulo">Revisión de respuestas y realimentación</h3>
+      <div id="detalleRespuestas" class="detalle-respuestas"></div>
+      <button type="button" class="btn-principal" id="reiniciarBtn">Volver a intentar</button>
+    </section>
+    <p class="pie">Recurso interactivo de repaso · Una pregunta a la vez · Resultado final acumulado</p>
+  </main>
+
+  <script>
+    (() => {
+      const preguntas = [...document.querySelectorAll('.pregunta')];
+      const total = preguntas.length;
+      const respuestas = new Array(total).fill(null);
+      const form = document.getElementById('quizForm');
+      const resultado = document.getElementById('resultadoFinal');
+      const navegacion = document.getElementById('navegacionQuiz');
+      const indicador = document.getElementById('indicadorPregunta');
+      const respondidas = document.getElementById('indicadorRespondidas');
+      const progresoBarra = document.getElementById('progresoBarra');
+      const anteriorBtn = document.getElementById('anteriorBtn');
+      const siguienteBtn = document.getElementById('siguienteBtn');
+      let actual = 0;
+
+      function renderizar() {
+        preguntas.forEach((pregunta, i) => {
+          pregunta.classList.toggle('activa', i === actual);
+          pregunta.hidden = i !== actual;
+        });
+        indicador.textContent = `Pregunta ${actual + 1} de ${total}`;
+        respondidas.textContent = `${respuestas.filter(x => x !== null).length} de ${total} respondidas`;
+        progresoBarra.style.width = `${(actual + 1) / total * 100}%`;
+        anteriorBtn.disabled = actual === 0;
+        siguienteBtn.disabled = respuestas[actual] === null;
+        siguienteBtn.textContent = actual === total - 1 ? 'Ver resultado →' : 'Siguiente →';
+      }
+
+      preguntas.forEach((pregunta, indice) => {
+        pregunta.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.addEventListener('change', () => {
+            respuestas[indice] = input.value;
+            pregunta.querySelectorAll('.opcion').forEach(opcion => {
+              opcion.classList.toggle('seleccionada', opcion.querySelector('input').checked);
+            });
+            renderizar();
+          });
+        });
+      });
+
+      function mostrarResultados() {
+        const aciertos = respuestas.filter((respuesta, i) => respuesta === preguntas[i].dataset.correct).length;
+        const porcentaje = Math.round(aciertos / total * 100);
+        form.hidden = true;
+        navegacion.hidden = true;
+        document.querySelector('.progreso-panel').hidden = true;
+        resultado.hidden = false;
+        document.getElementById('scoreValor').textContent = `${aciertos}/${total}`;
+        document.getElementById('porcentaje').textContent = `${porcentaje}%`;
+        document.getElementById('mensajeFinal').textContent = aciertos === total
+          ? '¡Excelente! Todas las respuestas son correctas.'
+          : aciertos >= 3 ? '¡Muy bien! Revise la realimentación para seguir fortaleciendo sus conocimientos.'
+          : 'Revise la realimentación de cada pregunta y vuelva a intentarlo.';
+
+        const detalle = document.getElementById('detalleRespuestas');
+        detalle.replaceChildren();
+        preguntas.forEach((pregunta, i) => {
+          const correcta = pregunta.dataset.correct;
+          const acertada = respuestas[i] === correcta;
+          const titulo = pregunta.querySelector('.enunciado').textContent.trim();
+          const opcionCorrecta = pregunta.querySelector(`.opcion[data-letter="${correcta}"] .texto-opcion`).textContent.trim();
+          const feedback = pregunta.querySelector('.feedback span').textContent.trim();
+          const tarjeta = document.createElement('article');
+          tarjeta.className = `detalle-item ${acertada ? 'bien' : 'mal'}`;
+          const h = document.createElement('h4');
+          h.textContent = `Pregunta ${i + 1}: ${titulo}`;
+          const estado = document.createElement('p');
+          estado.className = 'estado-respuesta';
+          estado.textContent = acertada ? '✓ Respuesta correcta' : '✕ Respuesta incorrecta';
+          const clave = document.createElement('p');
+          const strong = document.createElement('strong');
+          strong.textContent = 'Respuesta correcta: ';
+          clave.append(strong, opcionCorrecta);
+          const explicación = document.createElement('p');
+          explicación.textContent = feedback;
+          tarjeta.append(h, estado, clave, explicación);
+          detalle.append(tarjeta);
+        });
+        resultado.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block:'start' });
+      }
+
+      siguienteBtn.addEventListener('click', () => {
+        if (respuestas[actual] === null) return;
+        if (actual < total - 1) { actual++; renderizar(); }
+        else mostrarResultados();
+      });
+      anteriorBtn.addEventListener('click', () => {
+        if (actual > 0) { actual--; renderizar(); }
+      });
+      document.getElementById('reiniciarBtn').addEventListener('click', () => {
+        respuestas.fill(null);
+        form.reset();
+        preguntas.forEach(p => p.querySelectorAll('.opcion').forEach(op => op.classList.remove('seleccionada')));
+        actual = 0;
+        form.hidden = false;
+        navegacion.hidden = false;
+        document.querySelector('.progreso-panel').hidden = false;
+        resultado.hidden = true;
+        renderizar();
+        document.querySelector('.hero').scrollIntoView({ behavior:'smooth' });
+      });
+      renderizar();
+    })();
+  </script>
+</body>
+</html>

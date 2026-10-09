@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Régimen de monopolios | Recurso interactivo</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #06164f;
+      --blue: #2456b8;
+      --sky: #2476c0;
+      --pale: #e1f2fd;
+      --white: #fff;
+      --shadow: 0 15px 38px rgba(8, 45, 103, .14)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      font-family: Poppins, Arial, sans-serif;
+      color: var(--navy);
+      background: radial-gradient(circle at -2% -2%, #cde4fa 0 55px, #eaf5fe 56px 90px, transparent 91px), linear-gradient(165deg, #fff 45%, #f4faff 100%);
+      min-height: 100vh
+    }
+
+    .shell {
+      width: min(1150px, 92%);
+      margin: auto;
+      padding: 20px 0 30px
+    }
+
+    .heading {
+      text-align: center;
+      margin: 0 0 18px
+    }
+
+    .heading h1 {
+      font-size: clamp(1.6rem, 3.6vw, 3rem);
+      line-height: 1.16;
+      letter-spacing: -.035em;
+      margin: 4px 0 10px;
+      font-weight: 800
+    }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: #1454ba;
+      font-size: 1.5rem
+    }
+
+    .ornament:before,
+    .ornament:after {
+      content: "";
+      width: min(18vw, 240px);
+      height: 2.5px;
+      background: #1c57bd
+    }
+
+    .intro {
+      text-align: center;
+      margin: 0 auto 20px;
+      color: #37517b;
+      font-size: clamp(.78rem, 1.2vw, .92rem)
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      align-items: stretch
+    }
+
+    .card {
+      perspective: 1300px;
+      min-width: 0;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: arrive .7s cubic-bezier(.2, .7, .2, 1) forwards;
+      animation-delay: calc(var(--i)*170ms)
+    }
+
+    @keyframes arrive {
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .card-inner {
+      height: 100%;
+      min-height: 500px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform .78s cubic-bezier(.2, .78, .22, 1)
+    }
+
+    .card.is-open .card-inner {
+      transform: rotateY(180deg)
+    }
+
+    .face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border: 6px solid #e0f2ff;
+      border-radius: 16px;
+      background: linear-gradient(#edf8ff, #fff 67%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column
+    }
+
+    .front {
+      transition: border-color .25s;
+      justify-content: center;
+    }
+
+    .card:hover .front {
+      border-color: #bddcfb
+    }
+
+    .art {
+      height: 200px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      background: radial-gradient(circle at 50% 55%, #c4e2f9 0 39%, transparent 39.3%)
+    }
+
+    .art:after {
+      content: "";
+      position: absolute;
+      width: 72%;
+      height: 11px;
+      bottom: 11px;
+      border-radius: 50%;
+      background: #7eb6e9;
+      opacity: .48;
+      filter: blur(1px)
+    }
+
+    .visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0a2e69
+    }
+
+    .visual i {
+      font-size: clamp(4rem, 7.5vw, 6.5rem);
+      filter: drop-shadow(5px 9px 1px rgba(30, 85, 160, .11))
+    }
+
+    .visual .accent {
+      position: absolute;
+      color: #e8a126;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      bottom: -4px;
+      right: -20px;
+      transform: rotate(-12deg);
+      filter: drop-shadow(2px 3px 0 #fff)
+    }
+
+    .title-band {
+      background: linear-gradient(115deg, #3166c2, #1848ac);
+      border-radius: 13px;
+      margin: -1px 0 0;
+      padding: 12px 10px;
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 6px 13px rgba(24, 74, 161, .13)
+    }
+
+    .card:nth-child(2) .title-band {
+      background: linear-gradient(130deg, #061e56, #031246)
+    }
+
+    .card:nth-child(3) .title-band {
+      background: linear-gradient(125deg, #237fc5, #1568ae)
+    }
+
+    .title-band h2 {
+      color: white;
+      font-size: clamp(.95rem, 1.5vw, 1.5rem);
+      line-height: 1.22;
+      margin: 0;
+      font-weight: 700
+    }
+
+    .title-band:after {
+      content: "";
+      position: absolute;
+      bottom: 9px;
+      width: 28%;
+      height: 2.5px;
+      background: #4dd0ff;
+      border-radius: 3px
+    }
+
+    .copy {
+      padding: 18px 16px 6px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: clamp(.82rem, 1.15vw, 1.05rem);
+      line-height: 1.5
+    }
+
+    .card button {
+      font: inherit;
+      cursor: pointer
+    }
+
+    .open-btn {
+      margin: 0 auto 15px;
+      padding: 8px 16px;
+      border-radius: 22px;
+      border: 2px solid #bfdff7;
+      color: var(--navy);
+      background: #f1f9ff;
+      font-size: .78rem;
+      font-weight: 700;
+      transition: .2s
+    }
+
+    .open-btn:hover,
+    .open-btn:focus-visible {
+      background: #d5edff;
+      transform: translateY(-2px);
+      outline-color: #174db5
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      background: linear-gradient(150deg, #05205f, #0c438e 62%, #176baa);
+      border-color: #c9e6fc;
+      color: white;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 25px 20px;
+      gap: 20px
+    }
+
+    .back .symbol {
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+      border: 2px solid #90d8ff;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      background: #fff1
+    }
+
+    .back .symbol i {
+      font-size: 2.3rem;
+      color: #f7bd50
+    }
+
+    .back h3 {
+      font-size: clamp(1.05rem, 1.5vw, 1.6rem);
+      line-height: 1.25;
+      margin: 0 0 16px
+    }
+
+    .back p {
+      font-size: clamp(.85rem, 1.05vw, 1.05rem);
+      line-height: 1.6;
+      margin: 0 0 18px
+    }
+
+    .back .back-description {
+      margin: 0;
+      max-width: 32ch;
+      font-size: clamp(.88rem, 1.1vw, 1.05rem);
+      line-height: 1.7
+    }
+
+    .back .close-btn {
+      color: #05235f;
+      background: white;
+      border: 0;
+      border-radius: 24px;
+      padding: 10px 18px;
+      font-weight: 700;
+      font-size: .82rem;
+      flex-shrink: 0
+    }
+
+    .back .close-btn:hover,
+    .back .close-btn:focus-visible {
+      background: #d7efff;
+      outline: 3px solid #80d3ff
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      margin: 22px 0 10px
+    }
+
+    .arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 0;
+      background: #061b57;
+      color: white;
+      font-size: 1rem;
+      box-shadow: 0 6px 16px #071b5540;
+      cursor: pointer;
+      transition: transform .23s, background .23s
+    }
+
+    .arrow:hover {
+      background: #2869be;
+      transform: scale(1.1)
+    }
+
+    .arrow:active {
+      transform: scale(.92)
+    }
+
+    .counter {
+      font-weight: 700;
+      min-width: 80px;
+      text-align: center;
+      font-size: .88rem
+    }
+
+    .note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-align: center;
+      margin: 20px 0 0;
+      font-size: clamp(.78rem, 1.2vw, .95rem)
+    }
+
+    .note:before,
+    .note:after {
+      content: "";
+      height: 2px;
+      width: min(10vw, 140px);
+      background: #2763bf
+    }
+
+    .note i {
+      font-size: 1.4rem;
+      color: #1151ab
+    }
+
+    .help {
+      font-size: .76rem;
+      text-align: center;
+      color: #5f7190;
+      margin: 8px auto 0
+    }
+
+    /* Tarjeta activa */
+    .card.is-current .face.front {
+      border-color: #8dc6f3;
+      box-shadow: 0 17px 34px rgba(15, 79, 165, .2)
+    }
+
+    .card.is-current .title-band {
+      filter: saturate(1.12)
+    }
+
+    @media(max-width:950px) {
+      .cards {
+        gap: 9px
+      }
+
+      .face {
+        border-width: 5px
+      }
+
+      .card-inner {
+        min-height: 470px
+      }
+
+      .art {
+        height: 175px
+      }
+
+      .copy {
+        padding: 12px 10px 6px
+      }
+
+      .title-band {
+        min-height: 82px
+      }
+
+      .back {
+        padding: 20px 12px
+      }
+    }
+
+    @media(max-width:700px) {
+      .shell {
+        width: min(400px, 94%);
+        padding-top: 18px
+      }
+
+      .heading {
+        margin-bottom: 10px
+      }
+
+      .intro {
+        margin-bottom: 10px
+      }
+
+      .cards {
+        display: block;
+        position: relative
+      }
+
+      .card {
+        display: none;
+        animation: none;
+        opacity: 1;
+        transform: none
+      }
+
+      .card.is-current {
+        display: block;
+        animation: mobileEnter .42s ease both
+      }
+
+      @keyframes mobileEnter {
+        from {
+          opacity: .5;
+          transform: translateX(18px)
+        }
+
+        to {
+          opacity: 1;
+          transform: translateX(0)
+        }
+      }
+
+      .card-inner {
+        min-height: 460px
+      }
+
+      .art {
+        height: 180px
+      }
+
+      .visual i {
+        font-size: 5.8rem
+      }
+
+      .title-band h2 {
+        font-size: 1.2rem
+      }
+
+      .copy {
+        font-size: .9rem;
+        padding: 16px
+      }
+
+      .controls {
+        margin-top: 16px
+      }
+
+      .note {
+        line-height: 1.4
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      *,
+      *:before,
+      *:after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important
+      }
+    }
+
+    /* Ajustes específicos de la estructura frente/reverso */
+    .front .art {
+      height: 52%;
+      min-height: 190px;
+      flex-shrink: 0;
+    }
+
+    .front .title-band {
+      width: 100%;
+      min-height: 100px;
+    }
+
+    .front .open-btn {
+      margin: auto auto 20px;
+    }
+
+    .face {
+      -webkit-transform-style: preserve-3d;
+    }
+
+    @media(max-width:700px) {
+      .front .art {
+        height: 50%;
+        min-height: 165px;
+      }
+
+      .front .title-band {
+        min-height: 95px;
+      }
+
+      .back .back-description {
+        font-size: .92rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="shell">
+    <header class="heading">
+      <h1>a. Régimen de monopolios</h1>
+      <div aria-hidden="true" class="ornament"><i class="fa-solid fa-landmark"></i></div>
+    </header>
+    <p class="intro">Seleccione <strong>«Conocer más»</strong> para girar la tarjeta y leer la información al respaldo.
+    </p>
+    <section aria-label="Tres clases de monopolios rentísticos" class="cards" id="cards">
+      <article class="card is-current" data-card="0" style="--i:0">
+        <div class="card-inner">
+          <div class="face front">
+            <div class="art">
+              <div class="visual"><i aria-hidden="true" class="fa-solid fa-wine-bottle"></i><i aria-hidden="true"
+                  class="fa-solid fa-whiskey-glass accent"></i></div>
+            </div>
+            <div class="title-band">
+              <h2>Monopolio sobre<br />licores destilados</h2>
+            </div><button aria-expanded="false" aria-label="Conocer más sobre monopolio de licores destilados"
+              class="open-btn" type="button">Conocer más <i aria-hidden="true"
+                class="fa-solid fa-arrow-rotate-right"></i></button>
+          </div>
+          <div class="face back">
+            <p class="back-description" tabindex="-1">Ley 1816 de 2016. Monopolio limitado por decisión de la Corte
+              Constitucional de comienzos de 2025, que estableció la libre comercialización de todos los aguardientes en
+              todo el territorio nacional.</p><button class="close-btn" type="button">Volver a la tarjeta <i
+                aria-hidden="true" class="fa-solid fa-arrow-rotate-left"></i></button>
+          </div>
+        </div>
+      </article>
+      <article class="card" data-card="1" style="--i:1">
+        <div class="card-inner">
+          <div class="face front">
+            <div class="art">
+              <div class="visual"><i aria-hidden="true" class="fa-solid fa-dice"></i><i aria-hidden="true"
+                  class="fa-solid fa-ticket accent"></i></div>
+            </div>
+            <div class="title-band">
+              <h2>Monopolio sobre<br />loterías</h2>
+            </div><button aria-expanded="false" aria-label="Conocer más sobre monopolio de loterías" class="open-btn"
+              type="button">Conocer más <i aria-hidden="true" class="fa-solid fa-arrow-rotate-right"></i></button>
+          </div>
+          <div class="face back">
+            <p class="back-description" tabindex="-1">Comprende la explotación de las loterías como renta monopolística
+              del Estado.</p><button class="close-btn" type="button">Volver a la tarjeta <i aria-hidden="true"
+                class="fa-solid fa-arrow-rotate-left"></i></button>
+          </div>
+        </div>
+      </article>
+      <article class="card" data-card="2" style="--i:2">
+        <div class="card-inner">
+          <div class="face front">
+            <div class="art">
+              <div class="visual"><i aria-hidden="true" class="fa-solid fa-clipboard-check"></i><i aria-hidden="true"
+                  class="fa-solid fa-pen accent"></i></div>
+            </div>
+            <div class="title-band">
+              <h2>Monopolio sobre<br />apuestas permanentes</h2>
+            </div><button aria-expanded="false" aria-label="Conocer más sobre apuestas permanentes" class="open-btn"
+              type="button">Conocer más <i aria-hidden="true" class="fa-solid fa-arrow-rotate-right"></i></button>
+          </div>
+          <div class="face back">
+            <p class="back-description" tabindex="-1">Incluye las apuestas permanentes como actividad sometida al
+              régimen de monopolio rentístico.</p><button class="close-btn" type="button">Volver a la tarjeta <i
+                aria-hidden="true" class="fa-solid fa-arrow-rotate-left"></i></button>
+          </div>
+        </div>
+      </article>
+    </section>
+    <nav aria-label="Navegación de tarjetas" class="controls"><button aria-label="Tarjeta anterior" class="arrow"
+        id="prev" type="button"><i aria-hidden="true" class="fa-solid fa-arrow-left"></i></button><span
+        aria-live="polite" class="counter" id="counter">1 de 3</span><button aria-label="Tarjeta siguiente"
+        class="arrow" id="next" type="button"><i aria-hidden="true" class="fa-solid fa-arrow-right"></i></button></nav>
+    <p class="help">Puede utilizar también las teclas ← y → para navegar. La navegación es circular.</p>
+    <footer class="note"><i aria-hidden="true" class="fa-solid fa-coins"></i><span>Monopolios rentísticos destinados a
+        la obtención de recursos públicos.</span></footer>
+  </main>
+  <script>
+    (() => {
+      const cards = [...document.querySelectorAll('.card')]; let active = 0;
+      const counter = document.getElementById('counter');
+      function close(card) { card.classList.remove('is-open'); card.querySelector('.open-btn').setAttribute('aria-expanded', 'false'); }
+      function activate(index) { active = (index + cards.length) % cards.length; cards.forEach((c, i) => { close(c); c.classList.toggle('is-current', i === active) }); counter.textContent = `${active + 1} de ${cards.length}`; }
+      cards.forEach((card, i) => {
+        card.querySelector('.open-btn').addEventListener('click', () => { activate(i); card.classList.add('is-open'); card.querySelector('.open-btn').setAttribute('aria-expanded', 'true'); card.querySelector('.close-btn').focus({ preventScroll: true }); });
+        card.querySelector('.close-btn').addEventListener('click', () => { close(card); card.querySelector('.open-btn').focus({ preventScroll: true }); });
+      });
+      document.getElementById('prev').addEventListener('click', () => activate(active - 1));
+      document.getElementById('next').addEventListener('click', () => activate(active + 1));
+      document.addEventListener('keydown', e => { if (e.altKey || e.ctrlKey || e.metaKey || e.target.matches('input, textarea, select')) return; if (e.key === 'ArrowRight') { activate(active + 1) } else if (e.key === 'ArrowLeft') { activate(active - 1) } else if (e.key === 'Escape') { close(cards[active]) } });
+      let startX = null; const section = document.getElementById('cards'); section.addEventListener('touchstart', e => { startX = e.touches[0].clientX }, { passive: true }); section.addEventListener('touchend', e => { if (startX === null) return; const d = e.changedTouches[0].clientX - startX; if (Math.abs(d) > 60) activate(active + (d < 0 ? 1 : -1)); startX = null }, { passive: true });
+    })();
+  </script>
+</body>
+
+</html>

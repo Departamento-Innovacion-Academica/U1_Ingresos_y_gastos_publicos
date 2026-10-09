@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acordeón | Clasificación de gastos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #031451;
+      --blue: #56628D;
+      --light: #eff3fb;
+      --line: #d9e2f2
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--navy);
+      font-family: Poppins, Arial, sans-serif
+    }
+
+    .acordeon {
+      width: min(920px, 94%);
+      margin: 35px auto;
+      display: grid;
+      gap: 16px
+    }
+
+    .item {
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 8px 25px rgba(3, 20, 81, .07);
+      transition: border-color .25s, box-shadow .25s
+    }
+
+    .item:has(.titulo[aria-expanded="true"]) {
+      border-color: var(--blue);
+      box-shadow: 0 14px 32px rgba(3, 20, 81, .12)
+    }
+
+    .titulo {
+      appearance: none;
+      border: 0;
+      width: 100%;
+      background: var(--light);
+      padding: 23px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      font: 700 clamp(1rem, 2vw, 1.38rem)/1.45 Poppins, Arial, sans-serif;
+      color: var(--navy);
+      cursor: pointer;
+      text-align: left;
+      transition: background .25s, color .25s
+    }
+
+    .titulo:hover {
+      background: #e1e9f7
+    }
+
+    .titulo:focus-visible {
+      outline: 3px solid #2c70c7;
+      outline-offset: -4px
+    }
+
+    .titulo[aria-expanded="true"] {
+      background: var(--navy);
+      color: #fff
+    }
+
+    .simbolo {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: white;
+      transition: transform .3s, background .3s
+    }
+
+    .simbolo svg {
+      width: 18px;
+      height: 18px;
+      transition: transform .3s
+    }
+
+    .titulo[aria-expanded="true"] .simbolo {
+      background: #fff;
+      color: var(--navy)
+    }
+
+    .titulo[aria-expanded="true"] .simbolo svg {
+      transform: rotate(180deg)
+    }
+
+    .contenido {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .42s cubic-bezier(.2, .7, .2, 1)
+    }
+
+    .contenido.abierto {
+      grid-template-rows: 1fr
+    }
+
+    .contenido-interno {
+      min-height: 0;
+      overflow: hidden
+    }
+
+    .contenido ul {
+      margin: 0;
+      padding: 24px 30px 27px 55px;
+      list-style-type: circle
+    }
+
+    .contenido li {
+      font-size: clamp(.98rem, 1.8vw, 1.18rem);
+      line-height: 1.6;
+      padding: 9px 2px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .contenido li:last-child {
+      border-bottom: 0
+    }
+
+    .contenido li::marker {
+      color: var(--blue)
+    }
+
+    @media(max-width:600px) {
+      .acordeon {
+        margin: 20px auto;
+        gap: 12px
+      }
+
+      .titulo {
+        padding: 18px 17px
+      }
+
+      .simbolo {
+        width: 32px;
+        height: 32px
+      }
+
+      .contenido ul {
+        padding: 16px 20px 20px 38px
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        animation: none !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="acordeon" aria-label="Clasificación de gastos">
+    <section class="item">
+      <h2 style="margin:0">
+        <button class="titulo" type="button" id="encabezado-1" aria-expanded="false" aria-controls="panel-1">
+          <span>b.1 Gastos corrientes (funcionamiento)</span>
+          <span class="simbolo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6" />
+            </svg></span>
+        </button>
+      </h2>
+      <div class="contenido" id="panel-1" role="region" aria-labelledby="encabezado-1" inert>
+        <div class="contenido-interno">
+          <ul>
+            <li>Gastos de personal y contribuciones.</li>
+            <li>Gastos generales.</li>
+            <li>Intereses.</li>
+            <li>Subsidios.</li>
+            <li>Transferencias corrientes.</li>
+            <li>Otros gastos corrientes. (Giraldo, 2007)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="item">
+      <h2 style="margin:0">
+        <button class="titulo" type="button" id="encabezado-2" aria-expanded="false" aria-controls="panel-2">
+          <span>b.2 Gastos de capital (Inversión)</span>
+          <span class="simbolo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6" />
+            </svg></span>
+        </button>
+      </h2>
+      <div class="contenido" id="panel-2" role="region" aria-labelledby="encabezado-2" inert>
+        <div class="contenido-interno">
+          <ul>
+            <li>Adquisición y adición a los activos fijos.</li>
+            <li>Funcional</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const botones = document.querySelectorAll('.titulo');
+    botones.forEach(boton => {
+      boton.addEventListener('click', () => {
+        const abrir = boton.getAttribute('aria-expanded') !== 'true';
+        botones.forEach(otro => {
+          const panel = document.getElementById(otro.getAttribute('aria-controls'));
+          const activo = otro === boton && abrir;
+          otro.setAttribute('aria-expanded', String(activo));
+          panel.classList.toggle('abierto', activo);
+          panel.inert = !activo;
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
